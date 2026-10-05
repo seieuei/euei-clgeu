@@ -1,5 +1,12 @@
 # EUEI · CLGEU static prospectus
 
+**Do not upload this repository into https://africanstudies.eu.**
+
+That address is the BA in African Studies. This prospectus belongs only at https://euei.clgeu.africanstudies.eu. The two sites need separate document roots in SiteGround. Uploading these files into the African Studies root replaces its homepage with the EU programmes.
+
+The African Studies site is https://github.com/seieuei/africanstudies.
+
+
 Replace the document root of https://euei.clgeu.africanstudies.eu with the files in this repository.
 
 Upload the files themselves into the folder that currently holds `index.html` (SiteGround document root for that subdomain). Do not upload them inside an extra subfolder.
