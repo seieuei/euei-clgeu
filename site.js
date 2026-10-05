@@ -546,6 +546,42 @@
       '</h2><ol class="list">' +
       (list || '<li class="muted">' + esc(t.emptyDay) + "</li>") +
       "</ol>" +
+      (function () {
+        function block(term, title) {
+          return (
+            '<div class="section"><h3>' +
+            esc(title) +
+            '</h3><ul class="list">' +
+            D.closedDays
+              .filter(function (day) {
+                return day.term === term;
+              })
+              .map(function (day) {
+                return (
+                  '<li class="who"><span style="font-family:var(--serif);font-size:1.25rem">' +
+                  esc(day.when[l]) +
+                  '</span><span class="muted">' +
+                  esc(day.body[l]) +
+                  "</span></li>"
+                );
+              })
+              .join("") +
+            "</ul></div>"
+          );
+        }
+        return (
+          '<section class="section"><p class="kicker">' +
+          esc(t.closedKicker) +
+          "</p><h2>" +
+          esc(t.closedTitle) +
+          '</h2><p class="lede">' +
+          esc(t.closedLede) +
+          "</p>" +
+          block("winter", t.winterTerm) +
+          block("summer", t.summerTerm) +
+          "</section>"
+        );
+      })() +
       '<section class="section"><h2>' +
       esc(t.roomIndex) +
       '</h2><ul class="rooms" style="list-style:none;padding:0;margin-top:1rem;display:grid">' +

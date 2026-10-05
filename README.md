@@ -6,7 +6,9 @@ Upload the files themselves into the folder that currently holds `index.html` (S
 
 These addresses must open, and they share one layout. English, Bulgarian, French and Turkish share the same pages. The language switch stays on the address.
 
-The timetable is the winter semester 2026/2027 for the 3rd year only (Tuesday–Friday). The 1st year and the master’s timetable are not in this copy yet. A brass edge means the room passport still marks the room as unconfirmed.
+The timetable is the winter semester 2026/2027 for the 3rd year only (Tuesday–Friday). EU Policies is Wednesday 14:00–17:00 in room 420, Block 4, Campus East. The Friday foreign-policy room is still unconfirmed. The 1st year and the master’s timetable are not in this copy yet. A brass edge means the room passport still marks the room as unconfirmed.
+
+The same page lists the university days with no classes, from the rector’s order of 9 July 2026.
 
 The map is one drawing of the Rectorate first floor, in `maps/floor.jpg`. The “you are here” pin is a wayfinding mark on the drawing, not the programme office.
 
