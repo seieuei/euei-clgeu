@@ -11,24 +11,19 @@
     ["map", "map.html", "navMap"],
     ["apply", "apply.html", "navApply"],
   ];
-  var titles = {
-    home: { en: "Two programmes · Sofia University", bg: "Две програми · Софийски университет" },
-    bachelor: {
-      en: "European Union and European Integration · Sofia University",
-      bg: "Европейски съюз и европейска интеграция · Софийски университет",
-    },
-    master: {
-      en: "Cultural Liaisons and Geopolitics of the European Union · Sofia University",
-      bg: "Културни връзки и геополитика на Европейския съюз · Софийски университет",
-    },
-    timetable: { en: "Winter timetable 2026/2027 · EUEI", bg: "Зимно разписание 2026/2027 · ЕСЕИ" },
-    map: { en: "Rectorate, first floor · EUEI", bg: "Ректорат, първи етаж · ЕСЕИ" },
-    apply: { en: "Apply · Sofia University", bg: "Кандидатстване · Софийски университет" },
-    lecturers: { en: "Programme council · EUEI", bg: "Програмен съвет · ЕСЕИ" },
+  var titleKey = {
+    home: "titleHome",
+    bachelor: "titleBa",
+    master: "titleMa",
+    timetable: "titleTime",
+    map: "titleMap",
+    apply: "titleApply",
   };
 
   function lang() {
-    return localStorage.getItem("euei-lang") === "bg" ? "bg" : "en";
+    var saved = localStorage.getItem("euei-lang");
+    if (saved === "bg" || saved === "fr" || saved === "tr") return saved;
+    return "en";
   }
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
@@ -39,7 +34,9 @@
     });
   }
   function other(course, l) {
-    return l === "en" ? course.bg : course.en;
+    if (l === "bg") return course.en;
+    if (l === "en") return course.bg;
+    return course.en;
   }
 
   function shell(t, l, body) {
@@ -62,12 +59,20 @@
       '<div class="tools"><div class="langs" role="group" aria-label="' +
       esc(t.langLabel) +
       '">' +
-      '<button type="button" data-act="lang" data-lang="en" aria-pressed="' +
-      (l === "en") +
-      '">EN</button>' +
-      '<button type="button" data-act="lang" data-lang="bg" aria-pressed="' +
-      (l === "bg") +
-      '">BG</button></div>' +
+      ["en", "bg", "fr", "tr"]
+        .map(function (code) {
+          return (
+            '<button type="button" data-act="lang" data-lang="' +
+            code +
+            '" aria-pressed="' +
+            (l === code) +
+            '">' +
+            code.toUpperCase() +
+            "</button>"
+          );
+        })
+        .join("") +
+      "</div>" +
       '<button type="button" class="menu-btn" data-act="menu" aria-expanded="' +
       state.menu +
       '" aria-label="' +
@@ -421,12 +426,7 @@
     var labels = { all: t.allDays, tue: t.tue, wed: t.wed, thu: t.thu, fri: t.fri };
     var days = ["tue", "wed", "thu", "fri"];
     var col = { tue: 2, wed: 3, thu: 4, fri: 5 };
-    var placeName = {
-      tue: { en: "Rectorate", bg: "Ректорат" },
-      wed: { en: "Online · Block 1", bg: "Онлайн · Блок 1" },
-      thu: { en: "Rectorate", bg: "Ректорат" },
-      fri: { en: "Rectorate", bg: "Ректорат" },
-    };
+    var placeName = D.dayPlace;
     var heads =
       '<div style="border-bottom:1px solid var(--line)"></div>' +
       days
@@ -564,33 +564,14 @@
   }
 
   function mapPage(t, l) {
-    var current = D.floorSheets[state.sheet];
-    var chips = D.floorSheets
-      .map(function (_, i) {
-        return (
-          '<button type="button" class="chip" role="radio" data-act="sheet" data-n="' +
-          i +
-          '" aria-checked="' +
-          (i === state.sheet) +
-          '">' +
-          esc(t.sheet) +
-          " " +
-          (i + 1) +
-          "</button>"
-        );
-      })
-      .join("");
+    var current = D.floorPlan;
     return (
       headerBlock(t.mapKicker, t.mapTitle, t.mapLede) +
       '<div class="row-tools"><a class="textlink" href="timetable.html">' +
       esc(t.navTime) +
       '</a><a class="textlink" href="maps/rectorate-first-floor.pdf">' +
       esc(t.downloadPlan) +
-      '</a></div><div class="chips" role="radiogroup" aria-label="' +
-      esc(t.sheet) +
-      '">' +
-      chips +
-      "</div><figure><img src=\"" +
+      '</a></div><figure><img src="' +
       esc(current.src) +
       '" alt="' +
       esc(current.title[l]) +
@@ -624,7 +605,7 @@
                 '<li><p class="label">' +
                 esc(link.tag) +
                 "</p><p>" +
-                ext(link.href, link[l]) +
+                ext(link.href, link.tag === "BG" ? link.bg : link.en) +
                 '</p><p class="fine">' +
                 esc(t.opens) +
                 "</p></li>"
@@ -676,7 +657,7 @@
     var l = lang();
     var t = dict[l];
     document.documentElement.lang = l;
-    document.title = titles[page][l];
+    document.title = titleKey[page] ? t[titleKey[page]] : t.councilTitle;
     document.getElementById("app").innerHTML = shell(t, l, (views[page] || home)(t, l));
   }
 
