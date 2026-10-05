@@ -1,0 +1,15 @@
+DirectoryIndex index.html
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^bachelor/?$ bachelor.html [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^master/?$ master.html [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^timetable/?$ timetable.html [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^map/?$ map.html [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^apply/?$ apply.html [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^lecturers/?$ lecturers.html [L]
